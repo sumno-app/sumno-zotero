@@ -3,12 +3,11 @@
     "sumno-zotero@sumno.com.br": {
       "updates": [
         {
-          "version": "0.1.0",
-          "update_link": "https://github.com/sumno-app/sumno-zotero/releases/download/v0.1.0/sumno-zotero-0.1.0.xpi",
+          "version": "0.1.1",
+          "update_link": "https://github.com/sumno-app/sumno-zotero/releases/download/v0.1.1/sumno-zotero-0.1.1.xpi",
           "applications": {
             "zotero": {
-              "strict_min_version": "7.0.0",
-              "strict_max_version": "8.0.*"
+              "strict_min_version": "7.0.0"
             }
           }
         }

@@ -3,7 +3,12 @@
 All notable changes to **sumno-zotero** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
-## [0.1.0] — unreleased
+## [0.1.1] — 2026-05-14
+
+### Fixed
+- `strict_max_version` was set to `8.0.*` in v0.1.0, which made the plugin refuse to install on Zotero 8.1+ (including 9.x). Removed the upper bound; only `strict_min_version: 7.0.0` is enforced now.
+
+## [0.1.0]
 
 Initial public release.
 
