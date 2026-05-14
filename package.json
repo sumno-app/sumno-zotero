@@ -1,0 +1,22 @@
+{
+  "name": "sumno-zotero",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Read-only Zotero 7 plugin that syncs your sumno library into Zotero.",
+  "homepage": "https://github.com/sumno-app/sumno-zotero",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sumno-app/sumno-zotero.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "pack": "node scripts/pack.mjs",
+    "verify": "node scripts/verify.mjs"
+  },
+  "devDependencies": {
+    "archiver": "^7.0.1"
+  }
+}
