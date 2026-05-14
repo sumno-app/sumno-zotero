@@ -259,6 +259,7 @@ async function syncLibrary(win) {
     }
 
     let created = 0;
+    let addedToCollection = 0;
     let skipped = 0;
     let failed = 0;
     for (const it of data.items) {
@@ -266,28 +267,48 @@ async function syncLibrary(win) {
         skipped++;
         continue;
       }
-      if (existingByOpenalex.has(it.openalex_id)) {
-        skipped++;
+      const existing = existingByOpenalex.get(it.openalex_id);
+      if (existing) {
+        // Item already imported before. Self-heal: ensure it's in the Sumno collection.
+        try {
+          const cols = existing.getCollections();
+          if (!cols.includes(collection.id)) {
+            existing.addToCollection(collection.id);
+            await existing.saveTx();
+            addedToCollection++;
+          } else {
+            skipped++;
+          }
+        } catch (err) {
+          failed++;
+          const msg = (err && err.message) ? err.message : String(err);
+          Zotero.debug(`[sumno-zotero] failed to attach ${it.openalex_id} to collection: ${msg}`);
+        }
         continue;
       }
       try {
         const item = workToZoteroItem(it.work, it.openalex_id);
+        // Add to collection BEFORE saveTx so item creation and collection
+        // membership are persisted in the same atomic transaction.
+        item.addToCollection(collection.id);
         await item.saveTx();
-        await collection.addItem(item.id);
         created++;
       } catch (err) {
-        // Isolate per-item errors so one bad paper doesn't abort the whole sync.
         failed++;
         const msg = (err && err.message) ? err.message : String(err);
         Zotero.debug(`[sumno-zotero] failed to import ${it.openalex_id}: ${msg}`);
       }
     }
 
-    const failedTail = failed > 0 ? ` ${failed} failed (see Debug Output).` : '';
+    const parts = [];
+    parts.push(`${created} new item(s)`);
+    if (addedToCollection > 0) parts.push(`${addedToCollection} attached to "${COLLECTION_NAME}"`);
+    if (skipped > 0) parts.push(`${skipped} skipped`);
+    if (failed > 0) parts.push(`${failed} failed (see Debug Output)`);
     Services.prompt.alert(
       win,
       'sumno-zotero',
-      `Sync complete. ${created} new item(s) added to "${COLLECTION_NAME}". ${skipped} skipped (already imported or missing metadata).${failedTail}`,
+      `Sync complete. ${parts.join(', ')}.`,
     );
   } catch (err) {
     const msg = err && err.message ? err.message : String(err);

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "sumno-zotero",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Read-only sync from your sumno library into Zotero. See sumno.com.br.",
   "homepage_url": "https://github.com/sumno-app/sumno-zotero",
   "author": "Gustavo Furniel",
