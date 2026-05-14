@@ -25,6 +25,7 @@ if (!zoteroBlock) {
     failures.push('zotero.id should end with @sumno.com.br');
   }
   if (!zoteroBlock.strict_min_version) failures.push('zotero.strict_min_version missing');
+  if (!zoteroBlock.strict_max_version) failures.push('zotero.strict_max_version missing (Zotero 9+ requires it)');
 }
 if (legacyZotero && modernZotero) {
   if (legacyZotero.id !== modernZotero.id) {

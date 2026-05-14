@@ -3,6 +3,11 @@
 All notable changes to **sumno-zotero** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.1.3] — 2026-05-14
+
+### Fixed
+- Zotero 9 strictly requires `applications.zotero.strict_max_version` to be present in the manifest, even though it was optional in earlier versions. v0.1.1 removed it, v0.1.2 still omitted it — both refused to install on Zotero 9 with `Reading manifest: applications.zotero.strict_max_version not provided`. v0.1.3 declares `strict_max_version: "99.*"` in both `applications.zotero` and `browser_specific_settings.zotero`, which is permissive enough to cover any realistic Zotero version without further rebuilds.
+
 ## [0.1.2] — 2026-05-14
 
 ### Fixed
