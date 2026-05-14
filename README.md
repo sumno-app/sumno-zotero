@@ -8,9 +8,9 @@ Read-only means: **sumno → Zotero, one direction.** The plugin never writes an
 
 ## Install
 
-1. Open Zotero 7+.
+1. Open Zotero 7+. (Help → About Zotero must show **Version 7.0** or later; the plugin won't install on Zotero 6.)
 2. Download the latest `.xpi` from [Releases](https://github.com/sumno-app/sumno-zotero/releases/latest).
-3. In Zotero: **Tools → Add-ons → ⚙ (gear, top-right) → Install Add-on From File…** → pick the `.xpi`.
+3. In Zotero: **Tools → Plugins** → ⚙ (gear, top-right of the plugins window) → **Install Plugin From File…** → pick the `.xpi`. Alternatively: drag and drop the `.xpi` directly onto the Zotero window.
 4. Restart Zotero.
 
 ## Configure
