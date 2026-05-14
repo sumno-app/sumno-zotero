@@ -3,6 +3,11 @@
 All notable changes to **sumno-zotero** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] — 2026-05-14
+
+### Fixed
+- v0.1.1 still refused to install on Zotero 9.x with a generic "incompatible" error. Some Mozilla-based application versions stopped honoring the legacy `applications.zotero` block in favor of `browser_specific_settings.zotero`. Manifest now declares both for broad compatibility across Zotero 7, 8, and 9+.
+
 ## [0.1.1] — 2026-05-14
 
 ### Fixed

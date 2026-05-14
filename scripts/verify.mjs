@@ -10,12 +10,29 @@ const failures = [];
 
 const manifest = JSON.parse(await readFile(resolve(root, 'manifest.json'), 'utf8'));
 if (manifest.manifest_version !== 2) failures.push('manifest_version must be 2');
-if (!manifest.applications?.zotero?.id) failures.push('applications.zotero.id missing');
-if (!manifest.applications?.zotero?.id.endsWith('@sumno.com.br')) {
-  failures.push('applications.zotero.id should end with @sumno.com.br');
+
+// Either applications.zotero or browser_specific_settings.zotero must be present;
+// when both are present they must agree on id and strict_min_version (Zotero 7
+// reads applications.zotero, Zotero 9+ prefers browser_specific_settings.zotero).
+const legacyZotero = manifest.applications?.zotero;
+const modernZotero = manifest.browser_specific_settings?.zotero;
+const zoteroBlock = modernZotero ?? legacyZotero;
+if (!zoteroBlock) {
+  failures.push('Manifest must declare applications.zotero or browser_specific_settings.zotero');
+} else {
+  if (!zoteroBlock.id) failures.push('zotero.id missing');
+  if (zoteroBlock.id && !zoteroBlock.id.endsWith('@sumno.com.br')) {
+    failures.push('zotero.id should end with @sumno.com.br');
+  }
+  if (!zoteroBlock.strict_min_version) failures.push('zotero.strict_min_version missing');
 }
-if (!manifest.applications?.zotero?.strict_min_version) {
-  failures.push('strict_min_version missing');
+if (legacyZotero && modernZotero) {
+  if (legacyZotero.id !== modernZotero.id) {
+    failures.push('applications.zotero.id and browser_specific_settings.zotero.id must match');
+  }
+  if (legacyZotero.strict_min_version !== modernZotero.strict_min_version) {
+    failures.push('strict_min_version must match across both manifest blocks');
+  }
 }
 if (!/^\d+\.\d+\.\d+$/.test(manifest.version)) {
   failures.push(`version "${manifest.version}" not semver`);
