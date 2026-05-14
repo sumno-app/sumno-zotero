@@ -1,6 +1,6 @@
 {
   "name": "sumno-zotero",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "license": "MIT",
   "description": "Read-only Zotero 7 plugin that syncs your sumno library into Zotero.",
