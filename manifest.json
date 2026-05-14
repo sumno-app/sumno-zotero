@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "sumno-zotero",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read-only sync from your sumno library into Zotero. See sumno.com.br.",
   "homepage_url": "https://github.com/sumno-app/sumno-zotero",
   "author": "Gustavo Furniel",
@@ -9,8 +9,7 @@
     "zotero": {
       "id": "sumno-zotero@sumno.com.br",
       "update_url": "https://github.com/sumno-app/sumno-zotero/releases/latest/download/update.json",
-      "strict_min_version": "7.0.0",
-      "strict_max_version": "8.0.*"
+      "strict_min_version": "7.0.0"
     }
   }
 }
