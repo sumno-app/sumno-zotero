@@ -3,6 +3,14 @@
 All notable changes to **sumno-zotero** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.1.5] — 2026-05-14
+
+### Fixed
+- v0.1.4 sync saved each new item successfully but then called `collection.addItem(item.id)` outside the transaction — Zotero rejected with `Not in transaction`. The item ended up in the library but not inside the **Sumno** collection. Now the collection membership is added to the item before `saveTx()`, so creation and collection assignment happen in the same atomic transaction.
+
+### Added
+- Self-heal for previously-imported items that ended up outside the **Sumno** collection (e.g. left over from v0.1.4). Sync now detects items already imported by their OpenAlex ID and attaches them to the collection if missing. Reported as `N attached to "Sumno"` in the success alert.
+
 ## [0.1.4] — 2026-05-14
 
 ### Fixed
