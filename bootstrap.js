@@ -210,16 +210,20 @@ function workToZoteroItem(work, openalexId) {
   item.setField('extra', `openalex: ${openalexId}\nsumno: imported`);
 
   if (Array.isArray(work.authors)) {
-    work.authors.forEach((author, idx) => {
-      const parts = (author.display_name || '').trim().split(/\s+/);
-      const lastName = parts.pop() || '';
+    let creatorIdx = 0;
+    for (const author of work.authors) {
+      const displayName = ((author && author.display_name) || '').trim();
+      if (!displayName) continue; // OpenAlex occasionally returns null/empty authors; Zotero rejects creators with no name.
+      const parts = displayName.split(/\s+/);
+      const lastName = parts.pop() || displayName;
       const firstName = parts.join(' ');
-      item.setCreator(idx, {
+      item.setCreator(creatorIdx, {
         firstName,
         lastName,
         creatorTypeID: Zotero.CreatorTypes.getID('author'),
       });
-    });
+      creatorIdx++;
+    }
   }
   return item;
 }
@@ -256,6 +260,7 @@ async function syncLibrary(win) {
 
     let created = 0;
     let skipped = 0;
+    let failed = 0;
     for (const it of data.items) {
       if (!it.work) {
         skipped++;
@@ -265,16 +270,24 @@ async function syncLibrary(win) {
         skipped++;
         continue;
       }
-      const item = workToZoteroItem(it.work, it.openalex_id);
-      await item.saveTx();
-      await collection.addItem(item.id);
-      created++;
+      try {
+        const item = workToZoteroItem(it.work, it.openalex_id);
+        await item.saveTx();
+        await collection.addItem(item.id);
+        created++;
+      } catch (err) {
+        // Isolate per-item errors so one bad paper doesn't abort the whole sync.
+        failed++;
+        const msg = (err && err.message) ? err.message : String(err);
+        Zotero.debug(`[sumno-zotero] failed to import ${it.openalex_id}: ${msg}`);
+      }
     }
 
+    const failedTail = failed > 0 ? ` ${failed} failed (see Debug Output).` : '';
     Services.prompt.alert(
       win,
       'sumno-zotero',
-      `Sync complete. ${created} new item(s) added to "${COLLECTION_NAME}". ${skipped} skipped (already imported or missing metadata).`,
+      `Sync complete. ${created} new item(s) added to "${COLLECTION_NAME}". ${skipped} skipped (already imported or missing metadata).${failedTail}`,
     );
   } catch (err) {
     const msg = err && err.message ? err.message : String(err);

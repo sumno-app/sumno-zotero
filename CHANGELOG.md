@@ -3,6 +3,15 @@
 All notable changes to **sumno-zotero** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.1.4] — 2026-05-14
+
+### Fixed
+- OpenAlex occasionally returns authors with empty `display_name` (anonymous, unparsed, missing metadata). v0.1.3 tried to insert those creators with empty strings, and Zotero rejected the whole item with `Creator names cannot be empty`. Now empty authors are skipped silently.
+- The sync loop was tudo-ou-nada — one item with invalid metadata aborted the whole batch. Now each item is wrapped in its own try/catch; failures are counted and reported, the rest of the library still imports.
+
+### Changed
+- Success alert now reports `created / skipped / failed` instead of just `created / skipped`.
+
 ## [0.1.3] — 2026-05-14
 
 ### Fixed
