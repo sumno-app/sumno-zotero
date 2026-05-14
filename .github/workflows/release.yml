@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Verify plugin files
+        run: npm run verify
+      - name: Pack .xpi
+        run: npm run pack
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/sumno-zotero-*.xpi
+            update.json
+          draft: false
+          prerelease: false
+          generate_release_notes: true

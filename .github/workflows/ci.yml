@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Verify plugin files
+        run: npm run verify
+      - name: Pack .xpi (smoke)
+        run: npm run pack
+      - name: Upload .xpi artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sumno-zotero-dev
+          path: dist/sumno-zotero-*.xpi
+          if-no-files-found: error
+          retention-days: 7
