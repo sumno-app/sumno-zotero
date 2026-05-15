@@ -88,8 +88,7 @@ git push origin vX.Y.Z
 
 MIT — see [LICENSE](./LICENSE). Use it, modify it, ship it. No warranty.
 
-## Issues and feedback
+## Support
 
-GitHub issues only — please don't email about plugin behavior. Issues are best-effort, no SLA.
-
-For sumno itself: [ola@sumno.com.br](mailto:ola@sumno.com.br) or the contact form on sumno.com.br.
+- **Bugs and feature requests:** open a [GitHub issue](https://github.com/sumno-app/sumno-zotero/issues) — best-effort, no SLA, but issues are easier to track and benefit other users.
+- **Anything else (account, billing, plugin questions you'd rather email):** [support@sumno.com.br](mailto:support@sumno.com.br). Solo maintainer; expect a reply within a few business days.
