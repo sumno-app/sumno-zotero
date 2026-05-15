@@ -91,4 +91,4 @@ MIT — see [LICENSE](./LICENSE). Use it, modify it, ship it. No warranty.
 ## Support
 
 - **Bugs and feature requests:** open a [GitHub issue](https://github.com/sumno-app/sumno-zotero/issues) — best-effort, no SLA, but issues are easier to track and benefit other users.
-- **Anything else (account, billing, plugin questions you'd rather email):** [support@sumno.com.br](mailto:support@sumno.com.br). Solo maintainer; expect a reply within a few business days.
+- **Anything else (account, billing, plugin questions you'd rather email):** [suporte@sumno.com.br](mailto:suporte@sumno.com.br) — written in Portuguese (Brazilian product), but replies in English are fine if you write that way. Solo maintainer; expect a reply within a few business days.
